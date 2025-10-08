@@ -20,6 +20,12 @@
     <li class="nav-item">
       <a class="nav-link link-light" href="/admin">PAINEL</a>
     </li>
+{% if not user.is_authenticated %}
+  <li class="nav-item">
+    <a class="nav-link link-light" href="{% url 'registrar' %}">CADASTRAR</a>
+  </li>
+{% endif %}
+
   </ul>
 
   {% block content %}
