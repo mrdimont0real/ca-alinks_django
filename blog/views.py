@@ -1,56 +1,65 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.template import loader
-from .models import Member
-from .models import Post
-from django.shortcuts import render
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.decorators import login_required
+from .models import Member, Post
 
-
-def home(request):
-    return HttpResponse("<h1>Bem-vindo ao Blog!</h1>")
-
-
+# Página inicial
 def home(request):
     return render(request, 'home.html')
 
-
-
-
+# Exibir posts
 def testing(request):
-  posts = Post.objects.all().values()
-  template = loader.get_template('home.html')
-  context = {
-    'posts': posts,
-  }
-  return HttpResponse(template.render(context, request))
+    posts = Post.objects.all().values()
+    template = loader.get_template('home.html')
+    context = {
+        'posts': posts,
+    }
+    return HttpResponse(template.render(context, request))
 
-
-
-def login(request):
+def login_view(request):
     if request.method == "POST":
-        nome = request.POST.get("nome")
-        senha = request.POST.get("senha")
-        posts = Post.objects.all().values()
-        print(nome)
-        print(senha)
-        return render(request, 'home.html', locals())
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-    return render(request, 'login.html', locals())
+        user = authenticate(request, username=username, password=password)
 
-from django.contrib.auth import logout
-from django.shortcuts import redirect
+        if user is not None:
+            login(request, user)  # ← aqui está o argumento 'user' corretamente passado
+            return redirect('home')
+        else:
+            erro = "Usuário ou senha inválidos"
+            return render(request, 'login.html', {'erro': erro})
 
+    return render(request, 'login.html')
+
+# Logout
 def logout_view(request):
     logout(request)
     return render(request, 'logout.html')
 
+# Cadastro de usuário
 def registrar(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redireciona após cadastro
+            return redirect('login')
     else:
         form = UserCreationForm()
     return render(request, 'registration/registrar.html', {'form': form})
+
+# Alterar senha
+@login_required
+def alterar_senha(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)  # mantém o usuário logado
+            return render(request, 'senha_alterada.html')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'alterar_senha.html', {'form': form})
