@@ -13,6 +13,7 @@ urlpatterns = [
     path('alterar-senha/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('alterar-senha/concluido/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('registrar/', views.registrar, name='registrar'),
+    path('perfil/', views.perfil_view, name='perfil'),
 
 ]
 

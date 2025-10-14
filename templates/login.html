@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Digite seu usuário" required class="form-control mb-2">
+    <input type="password" name="password" placeholder="Digite sua senha" required class="form-control mb-2">
+    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <a href="{% url 'password_reset' %}" class="btn btn-link">Esqueceu sua senha?</a>
+    <a href="{% url 'registrar' %}" class="btn btn-success">Cadastrar</a>
+  </div>
+{% endblock %}
