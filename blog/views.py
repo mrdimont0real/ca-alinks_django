@@ -4,13 +4,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from .models import Member, Post
+from blog.models import Member, Post
 
-# Página inicial
+
+
 def home(request):
     return render(request, 'home.html')
 
-# Exibir posts
+
 def testing(request):
     posts = Post.objects.all().values()
     template = loader.get_template('home.html')
@@ -27,7 +28,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)  # ← aqui está o argumento 'user' corretamente passado
+            login(request, user) 
             return redirect('home')
         else:
             erro = "Usuário ou senha inválidos"
@@ -35,12 +36,12 @@ def login_view(request):
 
     return render(request, 'login.html')
 
-# Logout
+
 def logout_view(request):
     logout(request)
     return render(request, 'logout.html')
 
-# Cadastro de usuário
+
 def registrar(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -51,14 +52,14 @@ def registrar(request):
         form = UserCreationForm()
     return render(request, 'registration/registrar.html', {'form': form})
 
-# Alterar senha
+
 @login_required
 def alterar_senha(request):
     if request.method == 'POST':
         form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
-            update_session_auth_hash(request, form.user)  # mantém o usuário logado
+            update_session_auth_hash(request, form.user)  
             return render(request, 'senha_alterada.html')
     else:
         form = PasswordChangeForm(user=request.user)

@@ -12,21 +12,20 @@ class Post(models.Model):
 class Member(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField()
-    # Adicione outros campos conforme necessário
 
     def __str__(self):
         return self.nome
 
 class Pessoa(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="pessoas")
-    nome = models.CharField(max_length=255, verbose_name='Nome')
-    cpf = models.CharField(max_length=15, verbose_name='CPF')
-    email = models.EmailField(verbose_name='Email')
-    telefone = models.CharField(max_length=30, verbose_name='Telefone')
-    data_nascimento = models.DateField(verbose_name='Data de nascimento')
-    rg = models.CharField(max_length=30, verbose_name='RG', null=True, blank=True)
-    endereco = models.CharField(max_length=255, verbose_name='Endereço residencial', null=True, blank=True)
-    bairro = models.CharField(max_length=100, verbose_name='Bairro', null=True, blank=True)
+    nome = models.CharField("Nome", max_length=255)
+    cpf = models.CharField("CPF", max_length=15)
+    email = models.EmailField("Email")
+    telefone = models.CharField("Telefone", max_length=30)
+    data_nascimento = models.DateField("Data de nascimento")
+    rg = models.CharField("RG", max_length=30, null=True, blank=True)
+    endereco = models.CharField("Endereço residencial", max_length=255, null=True, blank=True)
+    bairro = models.CharField("Bairro", max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.nome
