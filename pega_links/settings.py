@@ -104,3 +104,5 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/perfil/'         
 LOGOUT_REDIRECT_URL = '/login/'         
 
+DEBUG = True
+

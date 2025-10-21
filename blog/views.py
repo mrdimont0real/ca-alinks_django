@@ -6,15 +6,14 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, Auth
 from django.contrib.auth.decorators import login_required
 from blog.models import Member, Post
 
-
 def home(request):
-    return render(request, 'home.html')
-
+    posts = Post.objects.all()
+    pessoas = Member.objects.all()
+    return render(request, 'home.html', {'posts': posts, 'pessoas': pessoas})
 
 def testing(request):
     posts = Post.objects.all()
     return render(request, 'home.html', {'posts': posts})
-
 
 def login_view(request):
     if request.method == "POST":
@@ -32,11 +31,9 @@ def login_view(request):
     
     return render(request, 'login.html')
 
-
 def logout_view(request):
     logout(request)
     return redirect('login')  # redireciona para login após logout
-
 
 def registrar(request):
     if request.method == 'POST':
@@ -47,7 +44,6 @@ def registrar(request):
     else:
         form = UserCreationForm()
     return render(request, 'registrar.html', {'form': form})
-
 
 @login_required
 def alterar_senha(request):
@@ -60,7 +56,6 @@ def alterar_senha(request):
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request, 'alterar_senha.html', {'form': form})
-
 
 @login_required
 def perfil_view(request):

@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-  <title>{% block title %}{% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>{% block title %}Meu Blog{% endblock %}</title>
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 </head>
 <body>
 
-<div class="container">
-  <ul class="nav bg-info">
-    <li class="nav-item">
-      <a class="nav-link link-light" href="/">HOME</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-light" href="/members">MEMBERS</a>
-    </li>
+  <div class="container">
+    <ul class="nav bg-info mb-4">
+      <li class="nav-item">
+        <a class="nav-link link-light" href="/">HOME</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-light" href="/members">MEMBERS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-light" href="/admin">PAINEL</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-light" href="/perfil">Perfil</a>
+      </li>
+      {% if not user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link link-light" href="{% url 'registrar' %}">CADASTRAR</a>
+      </li>
+      {% endif %}
+    </ul>
 
-    <li class="nav-item">
-      <a class="nav-link link-light" href="/admin">PAINEL</a>
-    </li>
+    {% block content %}
+    {% endblock %}
+  </div>
 
-    <li class="nav-item">
-      <a class="nav-link link-light" href="/perfil">Perfil</a>
-    </li>
-{% if not user.is_authenticated %}
-  <li class="nav-item">
-    <a class="nav-link link-light" href="{% url 'registrar' %}">CADASTRAR</a>
-  </li>
-{% endif %}
-
-  </ul>
-
-  {% block content %}
-  {% endblock %}
-</div>
 </body>
 </html>
