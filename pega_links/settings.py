@@ -31,15 +31,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-     'blog',
-    'django_bootstrap5',
-
-=======
+    'blog',
     'django_bootstrap5',
     'pega_links',
-    'blog',
->>>>>>> c3479d2417b067726a2464d26125b073b0ef8b1e
+
 ]
 
 
