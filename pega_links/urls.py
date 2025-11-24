@@ -1,12 +1,12 @@
-from django.contrib import admin
-from django.urls import path, include
-from blog import views
+from django.urls import path
 from django.contrib.auth import views as auth_views
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('blog.urls')),  # ou 'blog/' se quiser prefixar
-    path('login/', views.login_view, name='login'),
-    path('alterar-senha/', auth_views.PasswordChangeView.as_view(), name='alterar_senha'),
-    path('', include('pega_links.urls')),
+    path('', views.home, name='home'),
+    path('registrar/', views.registrar_view, name='registrar'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('members/', views.members_view, name='members'),
+
+
 ]

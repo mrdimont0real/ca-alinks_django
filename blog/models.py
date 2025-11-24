@@ -26,6 +26,7 @@ class Pessoa(models.Model):
     rg = models.CharField("RG", max_length=30, null=True, blank=True)
     endereco = models.CharField("Endereço residencial", max_length=255, null=True, blank=True)
     bairro = models.CharField("Bairro", max_length=100, null=True, blank=True)
+    idade = models.IntegerField("Idade", null=True, blank=True)  # adicionei idade aqui
 
     def __str__(self):
         return self.nome
